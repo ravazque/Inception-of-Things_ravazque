@@ -1,0 +1,30 @@
+# Argo CD Application for the bonus: same idea as Part 3, but the source repo
+# is the LOCAL GitLab instead of GitHub. Argo CD runs inside the cluster, so it
+# reaches GitLab through its Service DNS name.
+#
+# The project is public, so no repository credentials are needed.
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: playground
+  namespace: argocd
+spec:
+  project: default
+  source:
+    # Project created by scripts/gitlab.sh through the GitLab API.
+    repoURL: http://gitlab.gitlab.svc.cluster.local/root/Inception-of-Things_ravazque.git
+    # Named explicitly: on a repo that was empty until gitlab.sh pushed, HEAD
+    # follows the instance default branch, not necessarily the one pushed.
+    targetRevision: main
+    path: manifests
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: dev
+  syncPolicy:
+    automated:
+      # prune: remove cluster objects that were deleted from Git.
+      prune: true
+      # selfHeal: revert changes made directly on the cluster.
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

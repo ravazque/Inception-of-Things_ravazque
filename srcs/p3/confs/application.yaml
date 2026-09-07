@@ -1,0 +1,24 @@
+# Applied to the cluster, not read from Git: it declares which repository and
+# path Argo CD watches, and where it deploys.
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: playground
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/ravazque/Inception-of-Things_ravazque.git
+    targetRevision: HEAD
+    path: srcs/p3/confs/manifests
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: dev
+  syncPolicy:
+    automated:
+      # prune: remove cluster objects that were deleted from Git.
+      prune: true
+      # selfHeal: revert changes made directly on the cluster.
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
