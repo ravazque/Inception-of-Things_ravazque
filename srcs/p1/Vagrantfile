@@ -1,9 +1,8 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-# Part 1 - Two K3s nodes provisioned with Vagrant.
-#   ravazqueS  (192.168.56.110) -> K3s server  / control-plane
-#   ravazqueSW (192.168.56.111) -> K3s agent    / worker
+# Part 1 - Two K3s nodes provisioned with Vagrant:
+#   ravazqueS (192.168.56.110) K3s server, ravazqueSW (192.168.56.111) K3s agent.
 
 LOGIN     = "ravazque"
 SERVER_IP = "192.168.56.110"

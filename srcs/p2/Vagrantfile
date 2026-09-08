@@ -1,9 +1,8 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-# Part 2 - Single K3s server hosting three web apps behind one Ingress.
-#   ravazqueS (192.168.56.110) routes by Host header:
-#     app1.com -> app1 | app2.com -> app2 | anything else -> app3
+# Part 2 - One K3s server, ravazqueS (192.168.56.110), with three apps behind one Ingress:
+#   app1.com -> app1 | app2.com -> app2 | anything else -> app3
 
 LOGIN     = "ravazque"
 SERVER_IP = "192.168.56.110"

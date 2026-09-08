@@ -1,7 +1,6 @@
 #!/bin/bash
-# Part 3 - K3d cluster + Argo CD + continuous deployment of the dev app.
-# Runs on the host, no Vagrant. Docker must be available; the rest is
-# downloaded into ~/.local/bin, so no sudo is required.
+# Part 3 - K3d cluster + Argo CD + continuous deployment of the dev app, on the host.
+# Docker must be available; the rest is downloaded into ~/.local/bin, so no sudo.
 set -e
 
 CLUSTER="iot"
@@ -56,8 +55,7 @@ kubectl create namespace argocd --dry-run=client -o yaml | kubectl apply -f -
 kubectl create namespace dev    --dry-run=client -o yaml | kubectl apply -f -
 
 # --- Argo CD ---------------------------------------------------------------
-# Server-side apply: the Argo CD CRDs are too large for the client-side
-# last-applied-configuration annotation (262144 byte limit).
+# Server-side apply: the Argo CD CRDs exceed the 262144-byte last-applied annotation.
 kubectl apply --server-side -n argocd \
   -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 
@@ -95,7 +93,3 @@ echo "Argo CD UI : kubectl -n argocd port-forward svc/argocd-server 8080:443"
 echo "             https://localhost:8080  (user: admin)"
 echo "App check  : kubectl -n dev port-forward svc/playground 8888:8888"
 echo "             curl http://localhost:8888"
-case ":${PATH}:" in
-  *":${HOME}/.local/bin:"*) ;;
-  *) echo "PATH note  : add ~/.local/bin to your PATH so k3d/kubectl/argocd are found." ;;
-esac

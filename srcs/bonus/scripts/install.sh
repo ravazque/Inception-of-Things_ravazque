@@ -1,7 +1,6 @@
 #!/bin/bash
-# Bonus - Part 3 plus a local GitLab as the GitOps source.
-# Runs on the host like Part 3: one K3d cluster with the namespaces argocd,
-# dev and gitlab. Docker must be available; the rest goes to ~/.local/bin.
+# Bonus - Part 3 plus a local GitLab as the GitOps source, on the host.
+# One K3d cluster with argocd, dev and gitlab; the tools go to ~/.local/bin.
 set -e
 
 CLUSTER="iot"
