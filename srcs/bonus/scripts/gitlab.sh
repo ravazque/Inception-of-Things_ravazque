@@ -1,7 +1,6 @@
 #!/bin/bash
-# Deploy the local GitLab, create the public project Argo CD reads from and
-# push the application manifests into it. Driven through the GitLab API, so
-# there is no setup left to do in the web UI.
+# Deploys the local GitLab, creates the public project Argo CD reads from and
+# pushes the manifests into it, all through the GitLab API.
 set -e
 
 CLUSTER="${CLUSTER:-iot}"
@@ -12,8 +11,7 @@ CONFS="$(cd "$(dirname "$0")/../confs" && pwd)"
 export PATH="${HOME}/.local/bin:${PATH}"
 
 # --- image -----------------------------------------------------------------
-# Pulling on the host keeps the (large) image in the local Docker cache, so
-# recreating the cluster later does not download it again.
+# Pulled on the host, so a recreated cluster does not download it again.
 if ! docker image inspect "${IMAGE}" >/dev/null 2>&1; then
   echo "==> Pulling ${IMAGE} (this is a big image, be patient)"
   docker pull "${IMAGE}"
@@ -29,8 +27,7 @@ echo "==> Waiting for GitLab to be ready (first boot: several minutes)"
 kubectl -n "${NS}" rollout status deploy/gitlab --timeout=1800s
 
 # --- port-forward ----------------------------------------------------------
-# The API and the git push go through a temporary port-forward, so nothing has
-# to be published on the host and no /etc/hosts entry is needed.
+# The API and the push go through a temporary port-forward: nothing is published.
 port_free() { ! (exec 3<>"/dev/tcp/127.0.0.1/$1") 2>/dev/null; }
 PORT=8081
 while ! port_free "${PORT}"; do PORT=$((PORT + 1)); done
@@ -47,8 +44,7 @@ for _ in $(seq 1 60); do
 done
 
 # --- API token -------------------------------------------------------------
-# Reuse the token from a previous run when it is still valid, otherwise mint a
-# new one with the Rails console and keep it in a Secret.
+# Reuses a still valid token from a previous run, or mints one and keeps it in a Secret.
 PAT="$(kubectl -n "${NS}" get secret gitlab-api-token \
   -o jsonpath='{.data.token}' 2>/dev/null | base64 -d 2>/dev/null || true)"
 

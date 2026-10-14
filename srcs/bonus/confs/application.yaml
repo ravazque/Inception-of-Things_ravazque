@@ -1,8 +1,5 @@
-# Argo CD Application for the bonus: same idea as Part 3, but the source repo
-# is the LOCAL GitLab instead of GitHub. Argo CD runs inside the cluster, so it
-# reaches GitLab through its Service DNS name.
-#
-# The project is public, so no repository credentials are needed.
+# Argo CD Application for the bonus: Part 3 with the local GitLab as the source,
+# reached through its Service DNS name; the project is public, so no credentials.
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:

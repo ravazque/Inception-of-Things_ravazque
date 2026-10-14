@@ -20,9 +20,8 @@ echo "==> Waiting for Argo CD to be ready"
 kubectl -n argocd rollout status deploy/argocd-repo-server --timeout=300s
 kubectl -n argocd rollout status deploy/argocd-server      --timeout=300s
 
-# Points the application at the local GitLab. If Part 3 was run before, this
-# replaces the GitHub source of the same application: the very thing the bonus
-# asks for.
+# Points the application at the local GitLab; after Part 3 this replaces the
+# GitHub source of the same application.
 kubectl apply -f "${CONFS}/application.yaml"
 
 echo "==> Waiting for the first sync from GitLab"

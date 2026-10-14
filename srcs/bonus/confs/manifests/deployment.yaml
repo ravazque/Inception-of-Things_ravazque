@@ -1,6 +1,5 @@
-# Pushed by scripts/gitlab.sh to the local GitLab project root/Inception-of-Things_ravazque,
-# under manifests/. Argo CD reads it from there instead of GitHub.
-# Switch the tag between v1 and v2 and push to trigger a continuous deploy.
+# Pushed by scripts/gitlab.sh to the local GitLab project, under manifests/.
+# Switching the tag between v1 and v2 and pushing triggers a continuous deploy.
 apiVersion: apps/v1
 kind: Deployment
 metadata:

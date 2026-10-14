@@ -1,5 +1,4 @@
-# GitLab CE omnibus: one pod runs the whole stack (nginx, puma, sidekiq,
-# gitaly, postgresql, redis). Reachable in-cluster at
+# GitLab CE omnibus: one pod runs the whole stack, reachable in-cluster at
 # http://gitlab.gitlab.svc.cluster.local, the URL Argo CD clones from.
 apiVersion: v1
 kind: Secret
